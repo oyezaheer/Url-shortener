@@ -3,9 +3,17 @@ const mongoose = require('mongoose')
 const ShortUrl = require('./models/shortUrl')
 const app = express()
 
-mongoose.connect('mongodb://localhost/urlShortener', {
-  useNewUrlParser: true, useUnifiedTopology: true
+mongoose.connect('mongodb://localhost:27017/urlShortener', {
+ 
+  serverSelectionTimeoutMS: 5000
 })
+.then(() => {
+  console.log('Database connected successfully!');
+})
+.catch((err) => {
+  console.error('Error connecting to the database', err);
+  process.exit(1); // Exit the application if database connection fails
+});
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
